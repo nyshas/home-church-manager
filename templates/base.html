@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
 
-    <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
     <title>{% block title %}My Title{% endblock %}</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
 
@@ -21,8 +24,10 @@
 
 
 
+
 <!-- CSS Styling-->
     <style>
+
 
         ul {
             list-style-type: none;
@@ -223,18 +228,63 @@
         padding-top: 10px;
         padding-bottom: 10px;
     }
-    .hamburger{
-        margin-top: 200px;
-    }
+
 
 }
 
     </style>
 </head>
 <body>
-<div id="wrapper">
+<section class="cover text-center">
+			<nav class="navbar navbar-toggleable-sm navbar-trans navbar-inverse">
+				<div class="container">
+					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler-1" aria-controls="navbarToggler-1" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<a class="navbar-brand" style="padding-left:1; padding-top:10" href="{{ url_for('index') }}"><img src="/static/verbo-velocity.png" width="100%"></a>
+					<div class="collapse navbar-collapse pull-xs-right justify-content-end" id="navbarToggler-1">
+						<ul class="navbar-nav mt-2 mt-md-0">
+                        {% if current_user.name %}
+                            <li class="dropdown nav-item">
+                            <a href="{{ url_for('dashboard') }}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Welcome, {{ current_user.name }}  <span class="caret"></span></a>
 
-        <div class="overlay"></div>
+                            <ul class="dropdown-menu" role="menu">
+                                  <li class="dropdown-item"><a href="{{ url_for('dashboard') }}"> Dashboard</a></li>
+                                <li class="dropdown-item"><a href="{{ url_for('user_profile', user_id = current_user.member_id) }}">Profile Settings</a></li>
+                                <li class="dropdown-item"><a href="{{ url_for('update_user', user_id = current_user.member_id) }}"> Update Password</a></li>
+                              </ul>
+                            </li>
+                        {% endif %}
+                         {% if current_user.role == 'homegroup_leader' %}
+                             <li class="nav-item">
+                                 <a class="nav-link" href="{{ url_for('get_homegroup_members', homegroup_id = current_user.homegroup_id) }}">Members</a>
+                             </li>
+                        {% endif %}
+                        {% if current_user.role == 'admin' %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('get_homegroups') }}">Home Groups</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('all_members') }}">Members</a></li>
+                        {% endif %}
+                        {% if current_user.role == 'homegroup_leader' %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('attendance', homegroup_id = current_user.homegroup_id) }}">Attendance</a></li>
+                        {% endif %}
+
+                        {% if current_user.role == 'homegroup_leader' %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('edit_homegroup', homegroup_id = current_user.homegroup_id) }}">Edit Homegroup</a></li>
+                        {% endif %}
+
+                         <li class="nav-item"><a class="nav-link" href="{{ url_for('faq')}}">FAQ</a></li>
+                          <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
+                             {%  if current_user.name %}
+                                 <li class="nav-item"><a class="nav-link btn btn-outline-white btn-outline" href="/logout"><b><i class="fa fa-user"></i>Log Out</b></a></li>
+                            {%  else %}
+                                 <li class="nav-item"><a class="nav-link btn btn-outline-white btn-outline" href="/login"><b><i class="fa fa-user"></i>Log In</b></a></li>
+                            {% endif %}
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+       {# <div class="overlay"></div>
         <!-- Sidebar -->
         <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
             <ul class="nav sidebar-nav">
@@ -278,15 +328,15 @@
             </ul>
         </nav>
 </nav>
-        <!-- /#sidebar-wrapper -->
+        <!-- /#sidebar-wrapper -->#}
 
- <!-- Page Content -->
+{# <!-- Page Content -->
         <div id="page-content-wrapper">
             <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
                 <span class="hamb-top"></span>
              <span class="hamb-middle"></span>
             <span class="hamb-bottom"></span>
-            </button>
+            </button>#}
 
 
    <main class="Site-content">
@@ -329,29 +379,20 @@
             </div>
         </div>
         <!-- /#page-content-wrapper -->
+</section>
 
-    </div>
-    <!-- /#wrapper -->
     <footer>
     </footer>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
     <!-- Uses jQuery, so load after jQuery -->
     <script type="text/javascript" src="/static/javascript.js"></script>
 
 
 <script src="/static/main.js"></script> <!-- Resource jQuery for the confirmation popup-->
-<script src="/static/hamburgermenu.js"></script> <!-- Resource jQuery for the hamburger menu -->
+
 
 
 </body>
